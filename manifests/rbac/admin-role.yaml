@@ -1,0 +1,14 @@
+---
+# Admin Role - Full cluster management
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: admin-role
+rules:
+  # Full access to all resources in all API groups
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["*"]
+  # Full access to non-resource URLs (e.g., /healthz, /logs)
+  - nonResourceURLs: ["*"]
+    verbs: ["*"]
