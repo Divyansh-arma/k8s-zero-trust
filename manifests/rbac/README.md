@@ -46,12 +46,12 @@ This directory contains a complete RBAC (Role-Based Access Control) implementati
 
 ```
 .
-├── 00-namespaces.yaml         # Development, staging, production namespaces
-├── 01-admin-role.yaml         # Admin ClusterRole
-├── 02-developer-role.yaml     # Developer Role (development & staging)
-├── 03-readonly-role.yaml      # Read-Only Role (all namespaces)
-├── 04-service-accounts.yaml   # ServiceAccounts for each role
-├── 05-role-bindings.yaml      # RoleBindings and ClusterRoleBindings
+├── namespaces.yaml         # Development, staging, production namespaces
+├── admin-role.yaml         # Admin ClusterRole
+├── developer-role.yaml     # Developer Role (development & staging)
+├── readonly-role.yaml      # Read-Only Role (all namespaces)
+├── service-accounts.yaml   # ServiceAccounts for each role
+├── role-bindings.yaml      # RoleBindings and ClusterRoleBindings
 ├── apply-rbac.sh              # Automated deployment script
 ├── verify-rbac.sh             # Verification script
 └── README.md                  # This file
