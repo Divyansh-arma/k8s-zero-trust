@@ -1,0 +1,52 @@
+---
+# Namespaces for different environments
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: development
+  labels:
+    name: development
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: staging
+  labels:
+    name: staging
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+  labels:
+    name: production
+
+---
+# Namespace for Kyverno - policy management
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kyverno
+  labels:
+    name: kyverno
+
+
+# ---
+# # Namespace for monitoring tools
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: monitoring
+#   labels:
+#     name: monitoring
+
+# ---
+# # Namespace for logging tools
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: logging
+#   labels:
+#     name: logging
