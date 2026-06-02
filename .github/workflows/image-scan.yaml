@@ -25,7 +25,7 @@ jobs:
                   docker build -t my-app:${{ github.sha }} ./app
 
             - name: Scan Docker Image
-              uses: aquasecurity/trivy-action@v0.28.0
+              uses: aquasecurity/trivy-action@v0.36.0
               with:
                   image-ref: my-app:${{ github.sha }}
                   format: table
