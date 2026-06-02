@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - EcomStore{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold text-center mb-8">About EcomStore</h1>
+    
+    <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div>
+                <h2 class="text-2xl font-semibold mb-4">Our Story</h2>
+                <p class="text-gray-600 mb-4 leading-relaxed">
+                    Founded in 2025, EcomStore has been dedicated to providing customers with high-quality products 
+                    at competitive prices. We believe in making online shopping simple, secure, and enjoyable.
+                </p>
+                <p class="text-gray-600 leading-relaxed">
+                    Our team carefully curates every product to ensure you receive only the best. From electronics 
+                    to fashion, books to home goods, we've got everything you need.
+                </p>
+            </div>
+            <div class="text-center">
+                <img src="https://images.pexels.com/photos/264547/pexels-photo-264547.jpeg?auto=compress&cs=tinysrgb&w=500" 
+                     alt="About Us" class="rounded-lg shadow-md">
+            </div>
+        </div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-lg shadow-md p-6 text-center">
+            <i class="fas fa-shipping-fast text-4xl text-primary mb-4"></i>
+            <h3 class="text-xl font-semibold mb-2">Fast Shipping</h3>
+            <p class="text-gray-600">Free shipping on all orders over $50</p>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 text-center">
+            <i class="fas fa-shield-alt text-4xl text-secondary mb-4"></i>
+            <h3 class="text-xl font-semibold mb-2">Secure Shopping</h3>
+            <p class="text-gray-600">Your payment information is always protected</p>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 text-center">
+            <i class="fas fa-headset text-4xl text-accent mb-4"></i>
+            <h3 class="text-xl font-semibold mb-2">24/7 Support</h3>
+            <p class="text-gray-600">Our customer service team is here to help</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

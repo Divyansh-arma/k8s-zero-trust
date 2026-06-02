@@ -2,9 +2,9 @@ name: Trivy Security Scan
 
 on:
     push:
-        branches: [main]
+        branches: [/manifests/helm/**]
     pull_request:
-        branches: [main]
+        branches: [/manifests/]
 
 jobs:
     trivy-scan:

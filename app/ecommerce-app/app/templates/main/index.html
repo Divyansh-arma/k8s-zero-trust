@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-r from-primary to-blue-600 text-white rounded-lg mb-12">
+    <div class="px-8 py-16 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Welcome to EcomStore</h1>
+        <p class="text-xl mb-8 opacity-90">Discover amazing products at unbeatable prices</p>
+        <a href="{{ url_for('main.products') }}" class="bg-white text-primary px-8 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors inline-block">
+            Shop Now
+        </a>
+    </div>
+</div>
+
+<!-- Categories -->
+<div class="mb-12">
+    <h2 class="text-3xl font-bold text-center mb-8">Shop by Category</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for category in categories %}
+            <a href="{{ url_for('main.products', category=category.id) }}" class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
+                <h3 class="text-xl font-semibold mb-2">{{ category.name }}</h3>
+                <p class="text-gray-600">{{ category.description }}</p>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Featured Products -->
+<div class="mb-12">
+    <h2 class="text-3xl font-bold text-center mb-8">Featured Products</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% for product in products %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden product-card">
+                <img src="{{ product.image_url }}" alt="{{ product.name }}" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="font-semibold text-lg mb-2">{{ product.name }}</h3>
+                    <p class="text-gray-600 text-sm mb-3">{{ product.description[:50] }}...</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold text-primary">${{ "%.2f"|format(product.price) }}</span>
+                        <a href="{{ url_for('main.product_detail', id=product.id) }}" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors text-sm">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Newsletter -->
+<div class="bg-gray-800 text-white rounded-lg p-8 text-center">
+    <h2 class="text-2xl font-bold mb-4">Stay Updated</h2>
+    <p class="mb-6">Get notified about new products and special offers</p>
+    <div class="max-w-md mx-auto flex">
+        <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-2 rounded-l-md text-gray-800">
+        <button class="bg-accent px-6 py-2 rounded-r-md hover:bg-orange-600 transition-colors">Subscribe</button>
+    </div>
+</div>
+{% endblock %}

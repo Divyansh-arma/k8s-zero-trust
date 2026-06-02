@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Products - EcomStore{% endblock %}
+
+{% block content %}
+<div class="flex flex-col lg:flex-row gap-8">
+    <!-- Sidebar -->
+    <div class="lg:w-1/4">
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">Categories</h3>
+            <ul class="space-y-2">
+                <li>
+                    <a href="{{ url_for('main.products') }}" class="block text-gray-700 hover:text-primary transition-colors {% if not current_category %}font-semibold text-primary{% endif %}">
+                        All Products
+                    </a>
+                </li>
+                {% for category in categories %}
+                    <li>
+                        <a href="{{ url_for('main.products', category=category.id) }}" class="block text-gray-700 hover:text-primary transition-colors {% if current_category == category.id %}font-semibold text-primary{% endif %}">
+                            {{ category.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <!-- Search -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold mb-4">Search Products</h3>
+            <form method="GET" action="{{ url_for('main.products') }}">
+                {% if current_category %}
+                    <input type="hidden" name="category" value="{{ current_category }}">
+                {% endif %}
+                <div class="flex">
+                    <input type="text" name="search" value="{{ search_query or '' }}" placeholder="Search products..." class="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary">
+                    <button type="submit" class="bg-primary text-white px-4 py-2 rounded-r-md hover:bg-blue-600 transition-colors">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Products Grid -->
+    <div class="lg:w-3/4">
+        {% if search_query %}
+            <p class="text-gray-600 mb-6">Search results for "{{ search_query }}"</p>
+        {% endif %}
+        
+        {% if products.items %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+                {% for product in products.items %}
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden product-card">
+                        <img src="{{ product.image_url }}" alt="{{ product.name }}" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold text-lg mb-2">{{ product.name }}</h3>
+                            <p class="text-gray-600 text-sm mb-3">{{ product.description[:80] }}...</p>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-2xl font-bold text-primary">${{ "%.2f"|format(product.price) }}</span>
+                                <span class="text-sm text-gray-500">{{ product.stock }} in stock</span>
+                            </div>
+                            <a href="{{ url_for('main.product_detail', id=product.id) }}" class="block w-full bg-primary text-white text-center py-2 rounded-md hover:bg-blue-600 transition-colors">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if products.pages > 1 %}
+                <div class="flex justify-center">
+                    <nav class="flex space-x-2">
+                        {% if products.has_prev %}
+                            <a href="{{ url_for('main.products', page=products.prev_num, category=current_category, search=search_query) }}" class="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
+                                Previous
+                            </a>
+                        {% endif %}
+                        
+                        {% for page_num in products.iter_pages() %}
+                            {% if page_num %}
+                                {% if page_num != products.page %}
+                                    <a href="{{ url_for('main.products', page=page_num, category=current_category, search=search_query) }}" class="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
+                                        {{ page_num }}
+                                    </a>
+                                {% else %}
+                                    <span class="px-3 py-2 bg-primary text-white rounded-md">{{ page_num }}</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="px-3 py-2">...</span>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if products.has_next %}
+                            <a href="{{ url_for('main.products', page=products.next_num, category=current_category, search=search_query) }}" class="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
+                                Next
+                            </a>
+                        {% endif %}
+                    </nav>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-12">
+                <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-600 mb-2">No products found</h3>
+                <p class="text-gray-500">Try adjusting your search or browse all categories.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

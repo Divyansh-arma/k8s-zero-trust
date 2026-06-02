@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Cart - EcomStore{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-8">Shopping Cart</h1>
+
+{% if cart_items %}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Cart Items -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-lg shadow-md">
+                {% for item in cart_items %}
+                    <div class="flex items-center p-6 border-b border-gray-200 last:border-b-0">
+                        <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="w-20 h-20 object-cover rounded-md mr-4">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-lg">{{ item.product.name }}</h3>
+                            <p class="text-gray-600 text-sm">{{ item.product.category.name }}</p>
+                            <p class="text-primary font-bold">${{ "%.2f"|format(item.product.price) }} each</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <form method="POST" action="{{ url_for('cart.update_cart_item', item_id=item.id) }}" class="flex items-center space-x-2">
+                                <select name="quantity" onchange="this.form.submit()" class="border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-primary">
+                                    {% for i in range(1, min(11, item.product.stock + 1)) %}
+                                        <option value="{{ i }}" {% if i == item.quantity %}selected{% endif %}>{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                            <span class="font-bold text-lg">${{ "%.2f"|format(item.total_price) }}</span>
+                            <form method="POST" action="{{ url_for('cart.remove_from_cart', item_id=item.id) }}" class="inline">
+                                <button type="submit" class="text-red-500 hover:text-red-700 transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- Order Summary -->
+        <div>
+            <div class="bg-white rounded-lg shadow-md p-6 sticky top-4">
+                <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
+                <div class="space-y-2 mb-4">
+                    <div class="flex justify-between">
+                        <span>Subtotal:</span>
+                        <span>${{ "%.2f"|format(total) }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Shipping:</span>
+                        <span>Free</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Tax:</span>
+                        <span>${{ "%.2f"|format(total * 0.08) }}</span>
+                    </div>
+                    <hr>
+                    <div class="flex justify-between text-lg font-bold">
+                        <span>Total:</span>
+                        <span>${{ "%.2f"|format(total * 1.08) }}</span>
+                    </div>
+                </div>
+                <a href="{{ url_for('cart.checkout') }}" class="block w-full btn-primary text-white text-center py-3 rounded-md font-semibold">
+                    Proceed to Checkout
+                </a>
+                <a href="{{ url_for('main.products') }}" class="block w-full text-center text-primary py-3 hover:underline">
+                    Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="text-center py-12">
+        <i class="fas fa-shopping-cart text-6xl text-gray-300 mb-4"></i>
+        <h2 class="text-2xl font-semibold text-gray-600 mb-4">Your cart is empty</h2>
+        <p class="text-gray-500 mb-6">Looks like you haven't added any items to your cart yet.</p>
+        <a href="{{ url_for('main.products') }}" class="btn-primary text-white px-6 py-3 rounded-md font-semibold">
+            Start Shopping
+        </a>
+    </div>
+{% endif %}
+{% endblock %}
