@@ -15,7 +15,6 @@ on:
 jobs:
     trivy-scan:
         runs-on: ubuntu-latest
-
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v4
@@ -31,6 +30,17 @@ jobs:
                   format: table
                   severity: HIGH,CRITICAL
                   exit-code: 1
+
+    manifest-scan:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+            - name: Scan Kubernetes Manifests
+              uses: aquasecurity/trivy-action@v0.36.0
+              with:
+                  scan-type: config
+                  scan-ref: manifests/
 
             # - name: Push Docker Image to Registry
             #   if: success()  # Only push if the scan is successful
